@@ -4,7 +4,7 @@ This archive contains the implementation details, configuration files, and train
 
 ## Overview
 
-The object detection module is designed to recognize student behaviors in real-time classroom scenarios. It integrates the **Dual-Head Self-Attention (DHSA)** mechanism into the RT-DETR architecture to enhance feature extraction capabilities. 
+The object detection module is designed to recognize student behaviors in real-time classroom scenarios. It integrates the **Dynamic-range Histogram Self-Attention (DHSA)** mechanism into the RT-DETR architecture to enhance feature extraction capabilities. 
 
 This repository includes the source code for the modified architecture and the training records to validate the experimental results presented in the paper.
 
