@@ -4,30 +4,40 @@ This archive contains the implementation details, configuration files, and train
 
 ## Overview
 
-The object detection module is designed to recognize student behaviors in real-time classroom scenarios. This repository includes the modified model architecture and the training records to validate the experimental results presented in the paper.
+The object detection module is designed to recognize student behaviors in real-time classroom scenarios. It integrates the **Dual-Head Self-Attention (DHSA)** mechanism into the RT-DETR architecture to enhance feature extraction capabilities. 
+
+This repository includes the source code for the modified architecture and the training records to validate the experimental results presented in the paper.
+
+## 🔎 Key Implementation Details (DHSA)
+
+The core technical contribution, the DHSA mechanism, is adapted from the **Histoformer** project and integrated into the RT-DETR backbone.
+
+* **Original DHSA Source Code:** [https://github.com/sunshangquan/Histoformer](https://github.com/sunshangquan/Histoformer)
+* **Implementation in This Project:**
+    The specific class `TransformerEncoderLayer_DHSA` can be found in the following file:
+    > `ultralytics/nn/extra_modules/transformer.py`
 
 ## Directory Structure
 
 Please refer to the following directories to examine the method details and training evidence:
 
-### 1. Model Configuration
-* **Path:** `ultralytics/cfg/models/rt-detr`
-* **Description:** This folder contains the model configuration files (`.yaml`).
-    * You can inspect the definition of the network architecture here.
-    * This includes the specific modifications where the DHSA mechanism is integrated into the RT-DETR backbone.
+### 1. Model Architecture & Configuration
+* **DHSA Module Implementation:** `ultralytics/nn/extra_modules/transformer.py`
+    * *Check the `TransformerEncoderLayer_DHSA` class to see how the attention mechanism is implemented.*
+* **Model Config:** `ultralytics/cfg/models/rt-detr`
+    * Contains the `.yaml` configuration files defining the network structure and how the DHSA module is inserted.
 
 ### 2. Dataset Configuration
 * **Path:** `dataset`
-* **Description:** This folder contains the dataset configuration files used for training.
-    * It defines the classes (behavior categories) and data paths.
+* **Description:** Contains configuration files defining behavior categories and data paths.
     * *Note: In compliance with ethical standards and privacy protection for minor students, the raw video frames and annotation files are not included in this public release.*
 
 ### 3. Training Results
 * **Path:** `run/train`
-* **Description:** This folder contains the logs and results from the model training process.
+* **Description:** Contains logs and results from the model training process.
     * **Metrics:** Visualization of loss curves, precision, recall, and mAP scores.
-    * **Logs:** Training execution logs demonstrating the convergence of the model.
+    * **Logs:** Training execution logs demonstrating model convergence.
 
 ---
 **Note to Reviewers:**
-This code is based on the Ultralytics framework. The provided files focus on the specific architectural modifications and experimental validation relevant to the submitted manuscript.
+This code is built upon the Ultralytics framework. We provide the full system code (frontend & backend) to demonstrate the system's integrity. While the raw training data is private, the included model definition files allow for a thorough examination of the proposed technical method.
