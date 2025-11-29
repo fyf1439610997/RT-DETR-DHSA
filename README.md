@@ -16,6 +16,11 @@ The core technical contribution, the DHSA mechanism, is adapted from the **Histo
 * **Implementation in This Project:**
     The specific class `TransformerEncoderLayer_DHSA` can be found in the following file:
     > `ultralytics/nn/extra_modules/transformer.py`
+    
+### Model Architecture Diagram
+The following figure illustrates the improved RT-DETR architecture, highlighting the integration of the DHSA module (highlighted in the red box/dotted line).
+
+![DHSA-enhanced RT-DETR](./改进RT-DETR.png)
 
 ## Directory Structure
 
