@@ -1,0 +1,11 @@
+# dataset path
+path: /root/autodl-fs
+train: ./exp-1-721/images/train
+val: ./exp-1-721/images/val
+test: ./exp-1-721/images/test
+
+# number of classes
+nc: 3
+
+# class names
+names: ['0','1','2']
