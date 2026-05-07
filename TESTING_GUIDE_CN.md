@@ -1,5 +1,7 @@
 # RT-DETR-DHSA 独立测试说明
 
+[English](./TESTING_GUIDE_EN.md) | 中文
+
 这个目录用于独立测试视频目标检测，不会改动 `MIDO-Chat` 主项目代码。
 
 ## 1) 环境准备
