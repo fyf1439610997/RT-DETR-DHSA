@@ -6,7 +6,7 @@
 
 核心贡献是：在 RT-DETR 基线结构上引入 DHSA（Dynamic-range Histogram Self-Attention）模块，用于学生行为与表情识别。
 
-## 核心改进（供评审快速定位）
+## 核心改进
 
 ### 相比 RT-DETR 基线做了什么改进
 
