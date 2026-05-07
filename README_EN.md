@@ -6,7 +6,7 @@ This repository contains the model-side implementation and experiment artifacts 
 
 The key contribution is a DHSA-enhanced RT-DETR detector used for student behavior and expression analysis in classroom videos.
 
-## Core Contribution (for reviewers)
+## Core Contribution
 
 ### What is improved over baseline RT-DETR
 
