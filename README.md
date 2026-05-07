@@ -1,63 +1,65 @@
-# DHSA-Enhanced RT-DETR for Classroom Behavior/Expression Analysis
+# DHSA 增强 RT-DETR 课堂行为/表情分析
 
-This repository contains the model-side implementation and experiment artifacts for the manuscript on classroom multimodal learning analytics.
+[English](./README_EN.md) | 中文
 
-The key contribution is a DHSA-enhanced RT-DETR detector used for student behavior and expression analysis in classroom videos.
+本仓库包含论文对应的模型侧实现与实验证据，面向课堂多模态学习分析场景。
 
-## Core Contribution (for reviewers)
+核心贡献是：在 RT-DETR 基线结构上引入 DHSA（Dynamic-range Histogram Self-Attention）模块，用于学生行为与表情识别。
 
-### What is improved over baseline RT-DETR
+## 核心改进（供评审快速定位）
 
-- The baseline RT-DETR encoder is enhanced with **Dynamic-range Histogram Self-Attention (DHSA)**.
-- DHSA is adapted from Histoformer and integrated into the RT-DETR backbone/encoder path.
-- This design is intended to improve feature representation under classroom conditions (small targets, clutter, varied illumination).
+### 相比 RT-DETR 基线做了什么改进
 
-### Where to inspect the DHSA implementation
+- 在 RT-DETR 编码器相关路径中引入 **DHSA 注意力机制**。
+- DHSA 思路来自 Histoformer，并结合本项目场景完成适配与集成。
+- 目标是提升课堂视频中小目标、遮挡、光照变化等情况下的特征表达能力。
 
-- Main DHSA module: `ultralytics/nn/extra_modules/transformer.py`
-- Relevant model construction path: `ultralytics/nn/tasks.py`
-- RT-DETR model configs: `ultralytics/cfg/models/rt-detr`
+### DHSA 代码位置
 
-Original DHSA reference:
+- DHSA 主要实现：`ultralytics/nn/extra_modules/transformer.py`
+- 模型构建相关路径：`ultralytics/nn/tasks.py`
+- RT-DETR 配置目录：`ultralytics/cfg/models/rt-detr`
+
+DHSA 原始参考：
 - [Histoformer](https://github.com/sunshangquan/Histoformer)
 
-### Architecture figure
+### 架构示意图
 
 ![DHSA-enhanced RT-DETR](./改进RT-DETR.png)
 
-## Reproducibility Evidence
+## 可复现实验证据
 
-### Dataset config files
+### 数据配置文件
 
-- `dataset/action-1-721.yaml` (behavior task)
-- `dataset/exp-1-721.yaml` (expression task)
+- `dataset/action-1-721.yaml`（行为任务）
+- `dataset/exp-1-721.yaml`（表情任务）
 
-Raw classroom data is not publicly released for privacy and ethics reasons.
+因隐私与伦理要求，原始课堂视频和标注不公开。
 
-### Training/evaluation logs included
+### 训练/评估日志
 
 - `runs/train/.../results.csv`
 - `runs/train/.../args.yaml`
 
-These files provide training arguments and metric curves used in the manuscript experiments.
+用于展示训练参数、收敛过程与指标结果。
 
-## Inference Test Script (engineering supplement)
+## 推理测试脚本（工程补充）
 
-For practical testing in this project, a two-stage script is included:
+仓库中新增了可直接用于测试的小项目脚本：
 
 - `classroom_dual_model_sampler.py`
 
-Pipeline:
-- Stage 1: person detection on full frame.
-- Stage 2: crop each person box and run behavior + expression classification.
-- Sampling once every 30 frames (configurable).
-- Aggregate class percentages every 30 seconds (configurable).
-- Optional per-sampled-frame person-box visualization output.
+流程：
+- 第 1 阶段：整帧人体检测；
+- 第 2 阶段：按人体框裁剪并分别做行为/表情识别；
+- 每 30 帧采样一次（可配置）；
+- 每 30 秒聚合一次类别百分比（可配置）；
+- 支持导出每次采样的人体框可视化图片。
 
-Chinese usage guide:
-- `TESTING_GUIDE_CN.md`
+测试文档：
+- 中文：`TESTING_GUIDE_CN.md`
+- English: `TESTING_GUIDE_EN.md`
 
-## Note to Reviewers
+## 给论文评审的说明
 
-This repository is based on the Ultralytics framework and keeps the modified model implementation plus experiment evidence for method verification.
-The emphasis is on the DHSA integration and its reproducibility artifacts, while private raw classroom data remains unavailable.
+本仓库基于 Ultralytics 框架，重点保留 DHSA 改进实现与实验证据，便于评审核验方法贡献与可复现性。
