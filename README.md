@@ -1,48 +1,63 @@
-# Object Detection Model for "Utilizing Multimodal Learning Analytics with LLMs to Improve Instructional Design in Real-time Classroom Teaching"
+# DHSA-Enhanced RT-DETR for Classroom Behavior/Expression Analysis
 
-This archive contains the implementation details, configuration files, and training logs for the object detection model (DHSA-enhanced RT-DETR) described in the manuscript.
+This repository contains the model-side implementation and experiment artifacts for the manuscript on classroom multimodal learning analytics.
 
-## Overview
+The key contribution is a DHSA-enhanced RT-DETR detector used for student behavior and expression analysis in classroom videos.
 
-The object detection module is designed to recognize student behaviors in real-time classroom scenarios. It integrates the **Dynamic-range Histogram Self-Attention (DHSA)** mechanism into the RT-DETR architecture to enhance feature extraction capabilities. 
+## Core Contribution (for reviewers)
 
-This repository includes the source code for the modified architecture and the training records to validate the experimental results presented in the paper.
+### What is improved over baseline RT-DETR
 
-## 🔎 Key Implementation Details (DHSA)
+- The baseline RT-DETR encoder is enhanced with **Dynamic-range Histogram Self-Attention (DHSA)**.
+- DHSA is adapted from Histoformer and integrated into the RT-DETR backbone/encoder path.
+- This design is intended to improve feature representation under classroom conditions (small targets, clutter, varied illumination).
 
-The core technical contribution, the DHSA mechanism, is adapted from the **Histoformer** project and integrated into the RT-DETR backbone.
+### Where to inspect the DHSA implementation
 
-* **Original DHSA Source Code:** [https://github.com/sunshangquan/Histoformer](https://github.com/sunshangquan/Histoformer)
-* **Implementation in This Project:**
-    The specific class `TransformerEncoderLayer_DHSA` can be found in the following file:
-    > `ultralytics/nn/extra_modules/transformer.py`
-    
-### Model Architecture Diagram
-The following figure illustrates the improved RT-DETR architecture, highlighting the integration of the DHSA module (highlighted in the red box/dotted line).
+- Main DHSA module: `ultralytics/nn/extra_modules/transformer.py`
+- Relevant model construction path: `ultralytics/nn/tasks.py`
+- RT-DETR model configs: `ultralytics/cfg/models/rt-detr`
+
+Original DHSA reference:
+- [Histoformer](https://github.com/sunshangquan/Histoformer)
+
+### Architecture figure
 
 ![DHSA-enhanced RT-DETR](./改进RT-DETR.png)
 
-## Directory Structure
+## Reproducibility Evidence
 
-Please refer to the following directories to examine the method details and training evidence:
+### Dataset config files
 
-### 1. Model Architecture & Configuration
-* **DHSA Module Implementation:** `ultralytics/nn/extra_modules/transformer.py`
-    * *Check the `TransformerEncoderLayer_DHSA` class to see how the attention mechanism is implemented.*
-* **Model Config:** `ultralytics/cfg/models/rt-detr`
-    * Contains the `.yaml` configuration files defining the network structure and how the DHSA module is inserted.
+- `dataset/action-1-721.yaml` (behavior task)
+- `dataset/exp-1-721.yaml` (expression task)
 
-### 2. Dataset Configuration
-* **Path:** `dataset`
-* **Description:** Contains configuration files defining behavior categories and data paths.
-    * *Note: In compliance with ethical standards and privacy protection for minor students, the raw video frames and annotation files are not included in this public release.*
+Raw classroom data is not publicly released for privacy and ethics reasons.
 
-### 3. Training Results
-* **Path:** `run/train`
-* **Description:** Contains logs and results from the model training process.
-    * **Metrics:** Visualization of loss curves, precision, recall, and mAP scores.
-    * **Logs:** Training execution logs demonstrating model convergence.
+### Training/evaluation logs included
 
----
-**Note to Reviewers:**
-This code is built upon the Ultralytics framework. We provide the full system code (frontend & backend) to demonstrate the system's integrity. While the raw training data is private, the included model definition files allow for a thorough examination of the proposed technical method.
+- `runs/train/.../results.csv`
+- `runs/train/.../args.yaml`
+
+These files provide training arguments and metric curves used in the manuscript experiments.
+
+## Inference Test Script (engineering supplement)
+
+For practical testing in this project, a two-stage script is included:
+
+- `classroom_dual_model_sampler.py`
+
+Pipeline:
+- Stage 1: person detection on full frame.
+- Stage 2: crop each person box and run behavior + expression classification.
+- Sampling once every 30 frames (configurable).
+- Aggregate class percentages every 30 seconds (configurable).
+- Optional per-sampled-frame person-box visualization output.
+
+Chinese usage guide:
+- `TESTING_GUIDE_CN.md`
+
+## Note to Reviewers
+
+This repository is based on the Ultralytics framework and keeps the modified model implementation plus experiment evidence for method verification.
+The emphasis is on the DHSA integration and its reproducibility artifacts, while private raw classroom data remains unavailable.
